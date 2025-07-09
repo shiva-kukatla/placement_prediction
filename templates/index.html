@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Placement Predictor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f7fafd;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 60px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 550px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: #0077cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            margin-top: 15px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #0077cc;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            background-color: #0077cc;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        .reset-btn {
+            background-color: #999;
+        }
+
+        .reset-btn:hover {
+            background-color: #777;
+        }
+
+        .reset-btn-link {
+            text-decoration: none;
+            flex: 1;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 14px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 18px;
+        }
+
+        .placed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .not-placed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 6px;
+        }
+
+        h4 {
+            margin-top: 20px;
+            font-size: 17px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h2>🎓 Placement Prediction Form</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <label>CGPA:</label>
+                <input type="number" name="cgpa" step="0.1" min="0" max="10" required value="{{ request.form.get('cgpa', '') }}">
+
+                <label>Internships:</label>
+                <input type="number" name="internships" min="0" required value="{{ request.form.get('internships', '') }}">
+
+                <label>Projects:</label>
+                <input type="number" name="projects" min="0" required value="{{ request.form.get('projects', '') }}">
+
+                <label>Workshops/Certifications:</label>
+                <input type="number" name="workshops" min="0" required value="{{ request.form.get('workshops', '') }}">
+
+                <label>Aptitude Test Score (0–100):</label>
+                <input type="number" name="aptitude" min="0" max="100" required value="{{ request.form.get('aptitude', '') }}">
+
+                <label>Soft Skills Rating (1–5):</label>
+                <input type="number" name="softskills" step="0.1" min="1" max="5" required value="{{ request.form.get('softskills', '') }}">
+
+                <label>Extracurricular Activities:</label>
+                <select name="extra">
+                    <option {% if request.form.get('extra') == 'Yes' %}selected{% endif %}>Yes</option>
+                    <option {% if request.form.get('extra') == 'No' %}selected{% endif %}>No</option>
+                </select>
+
+                <label>Placement Training:</label>
+                <select name="training">
+                    <option {% if request.form.get('training') == 'Yes' %}selected{% endif %}>Yes</option>
+                    <option {% if request.form.get('training') == 'No' %}selected{% endif %}>No</option>
+                </select>
+
+                <label>SSC Marks (%):</label>
+                <input type="number" name="ssc" min="0" max="100" required value="{{ request.form.get('ssc', '') }}">
+
+                <label>HSC Marks (%):</label>
+                <input type="number" name="hsc" min="0" max="100" required value="{{ request.form.get('hsc', '') }}">
+
+                <div class="button-group">
+                    <button type="submit">🔮 Predict</button>
+                    <a href="/" class="reset-btn-link">
+                        <button type="button" class="reset-btn">🔁 Reset</button>
+                    </a>
+                </div>
+            </form>
+
+            {% if result %}
+                <div class="result {% if 'Placed' in result %}placed{% else %}not-placed{% endif %}">
+                    Prediction: {{ result }}
+                </div>
+
+                {% if feedback %}
+                    <h4>How to improve:</h4>
+                    <ul>
+                        {% for item in feedback %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

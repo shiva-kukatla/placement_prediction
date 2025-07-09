@@ -1,0 +1,20 @@
+Flask
+numpy
+pandas
+scikit-learn
+xgboost
+
+
+The Minimum scores and conditions to place in placement:
+| Feature                        | Recommended Minimum Value |
+| ------------------------------ | ------------------------- |
+| **CGPA**                       | `7.0` and above           |
+| **Internships**                | `1` or more               |
+| **Projects**                   | `2` or more               |
+| **Workshops/Certifications**   | `1` or more               |
+| **Aptitude Test Score**        | `70+` out of 100          |
+| **Soft Skills Rating**         | `3.5` out of 5 or more    |
+| **Extracurricular Activities** | Yes                       |
+| **Placement Training**         | Yes                       |
+| **SSC Marks (%)**              | `70%` or more             |s
+| **HSC Marks (%)**              | `70%` or more             |
